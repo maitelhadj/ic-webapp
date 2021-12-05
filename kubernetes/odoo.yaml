@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+meta-data:
+  name: odoo-web
+  labels:
+    app: odoo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: odoo
+  templates:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      containers:
+      - name: odoo
+        image: odoo
+        ports:
+          - containerPort: 8069
