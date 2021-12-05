@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-meta-data:
+metadata:
   name: odoo-web
   labels:
     app: odoo
