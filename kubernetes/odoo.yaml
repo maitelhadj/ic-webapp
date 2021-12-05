@@ -12,7 +12,7 @@ spec:
     app: odoo-shop
     tier: backend
 ---
-api version: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: odoo-db
