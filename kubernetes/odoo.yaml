@@ -38,7 +38,7 @@ spec:
               value: postgres
           ports:
             - name: odoo-db
-              containerPort: odoo-db
+              containerPort: 5432
 
 ---
 apiVersion: v1
