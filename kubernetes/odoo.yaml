@@ -42,7 +42,7 @@ spec:
           ports:
             - name: odoo-db
               containerPort: 5432
-          volumenMounts:
+          volumeMounts:
             - name: odoo-db-pvc
               mountPath: /var/lib/postgresql/data
       volumes:
@@ -95,7 +95,7 @@ spec:
           ports:
             - name: odoo-shop
               containerPort: 8069
-          volumenMounts:
+          volumeMounts:
             - name: odoo-pvc
               mountPath: /var/lib/odoo
       volumes:
@@ -111,12 +111,14 @@ metadata:
     type: local
 spec:
   capacity:
-    storage: 5Gi
-  volumeMode: Filesystem
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/pv0001
+    path: /home/mayas/data/pv0001
+    type: DirectoryOrCreate
+  claimRef:
+    name: odoo-db-pvc
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -126,12 +128,14 @@ metadata:
     type: local
 spec:
   capacity:
-    storage: 5Gi
-  volumeMode: Filesystem
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/pv02
+    path: /home/mayas/data/pv02
+    type: DirectoryOrCreate
+  claimRef:
+    name: odoo-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -142,10 +146,10 @@ metadata:
 spec:
   resources:
     requests:
-      storage: 5Gi
-  volumeMode: Filesystem
+      storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  volumeName: pv01
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -156,7 +160,7 @@ metadata:
 spec:
   resources:
     requests:
-      storage: 5Gi
-  volumeMode: Filesystem
+      storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  volumeName: pv02
