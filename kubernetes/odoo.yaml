@@ -112,8 +112,6 @@ spec:
   hostPath:
     path: /home/mayas/data/pv0001
     type: DirectoryOrCreate
-  claimRef:
-    name: odoo-db-pvc
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -129,8 +127,6 @@ spec:
   hostPath:
     path: /home/mayas/data/pv02
     type: DirectoryOrCreate
-  claimRef:
-    name: odoo-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
