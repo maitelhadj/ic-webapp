@@ -47,9 +47,6 @@ spec:
               mountPath: /var/lib/postgresql/data
       volumes:
         - name: odoo-db-pvc
-          persistentVolumeClaim:
-            claimName: odoo-db-pvc 
-
 ---
 apiVersion: v1
 kind: Service
@@ -100,8 +97,6 @@ spec:
               mountPath: /var/lib/odoo
       volumes:
         - name: odoo-pvc
-          persistentVolumeClaim:
-            claimName: odoo-pvc
 ---
 apiVersion: v1
 kind: PersistentVolume
