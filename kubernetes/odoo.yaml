@@ -176,7 +176,6 @@ spec:
           securityContext:
             privileged: true
             runAsUser: 101
-            runAsGroup: 101
           ports:
             - name: odoo-shop
               containerPort: 8069

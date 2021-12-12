@@ -113,7 +113,6 @@ spec:
           securityContext:
             privileged: true
             runAsUser: 5050
-            runAsGroup: 5050
           volumeMounts:
             - name: pgadmin-config
               mountPath: /pgadmin4/servers.json
