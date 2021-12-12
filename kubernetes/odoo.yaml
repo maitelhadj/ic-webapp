@@ -106,6 +106,39 @@ spec:
     app: odoo
     tier: frontend
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-02
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/mayas/pv-02
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-pvc
+  labels:
+    app: odoo
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -143,4 +176,11 @@ spec:
           ports:
             - name: odoo-shop
               containerPort: 8069
+          volumeMounts:
+            - name: odoo-persistent-storage
+              mountPath: /var/lib/odoo
+      volumes:
+        - name: odoo-persistent-storage
+          persistentVolumeClaim:
+            claimName: odoo-pvc
 ...
