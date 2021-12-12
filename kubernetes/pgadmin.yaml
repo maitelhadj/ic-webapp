@@ -107,6 +107,8 @@ spec:
               value: mayasaeh213@gmail.com
             - name: PGADMIN_DEFAULT_PASSWORD
               value: "08031998"
+          securityContext:
+            privileged: true
           ports:
             - name: pgadmin
               containerPort: 80

@@ -175,7 +175,6 @@ spec:
               value: odoo
           securityContext:
             privileged: true
-            runAsUser: 0
           ports:
             - name: odoo-shop
               containerPort: 8069
