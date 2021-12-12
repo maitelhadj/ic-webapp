@@ -13,6 +13,36 @@ spec:
     tier: frontend
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+data:
+  servers.json: |
+    {
+      "Servers": {
+        "1": {
+          "Name": "Minimally Defined Server",
+          "Group": "Server Group 1",
+          "Port": 5432,
+          "Username": "postgres",
+          "Host": "localhost",
+          "SSLMode": "prefer",
+          "MaintenanceDB": "postgres"
+        },
+        
+        "2": {
+          "Name": "Minimally Defined Server",
+          "Group": "Server Group 1",
+          "Port": 5432,
+          "Username": "postgres",
+          "Host": "localhost",
+          "SSLMode": "prefer",
+          "MaintenanceDB": "postgres"
+        }
+      }
+    }
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-03
@@ -88,6 +118,9 @@ spec:
             - name: pgadmin-persistent-storage
               mountPath: /var/lib/pgadmin
       volumes:
+        - name: pgadmin-config
+          configMap:
+            name: pgadmin-config
         - name: pgadmin-persistent-storage
           persistentVolumeClaim:
             claimName: pgadmin-pvc
