@@ -179,6 +179,10 @@ spec:
           volumeMounts:
             - name: odoo-persistent-storage
               mountPath: /var/lib/odoo
+            - name: odoo-persistent-storage
+              mountPath: /etc/odoo
+            - name: odoo-persistent-storage
+              mountPath: /mnt/extra-addons
       volumes:
         - name: odoo-persistent-storage
           persistentVolumeClaim:
