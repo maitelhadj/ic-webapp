@@ -79,6 +79,8 @@ spec:
               value: odoo
             - name: POSTGRES_DB
               value: postgres
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           ports:
             - name: odoo-db
               containerPort: 5432
@@ -141,3 +143,4 @@ spec:
           ports:
             - name: odoo-shop
               containerPort: 8069
+...
