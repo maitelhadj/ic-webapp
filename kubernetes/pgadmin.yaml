@@ -95,9 +95,10 @@ spec:
       containers:
         - name: pgadmin
           image: dpage/pgadmin4:5.4
-          command: ["sh", "-c", "sudo chown -R 5050:5050 /var/lib/pgadmin"]
+          command: ["sh", "-c", "chown -R 5050:5050 /var/lib/pgadmin"]
           securityContext:
             privileged: true
+            runAsUser: 0
           resources:
             requests:
               memory: 64Mi
