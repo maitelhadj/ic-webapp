@@ -114,6 +114,9 @@ metadata:
     type: local
 spec:
   storageClassName: manual
+  mountOptions:
+    - uid=1000
+    - gid=1000
   capacity:
     storage: 5Gi
   volumeMode: Filesystem
