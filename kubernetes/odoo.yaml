@@ -23,7 +23,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  claimRef: odoo-db-pvc
+  claimRef:
+    name: odoo-db-pvc
   mountOptions:
     - hard
     - nfsvers=4.1
