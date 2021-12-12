@@ -45,6 +45,23 @@ spec:
   accessModes:
     - ReadWriteOnce
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-db
+data:
+  POSTGRES_USER: odoo
+  POSTGRES_DB: postgres
+  PGDATA: /var/lib/postgresql/data/pgdata
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: odoo-db
+type: Opaque
+data:
+  odoo-db-password: b2Rvbwo=
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -72,15 +89,15 @@ spec:
             limits:
               memory: 128Mi
               cpu: 500m
+          envFrom:
+            - configMapRef:
+                name: odoo-db
           env:
-            - name: POSTGRES_USER
-              value: odoo
             - name: POSTGRES_PASSWORD
-              value: odoo
-            - name: POSTGRES_DB
-              value: postgres
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-db
+                  key: odoo-db-password
           ports:
             - name: odoo-db
               containerPort: 5432
@@ -139,6 +156,14 @@ spec:
   accessModes:
     - ReadWriteOnce
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo
+data:
+  HOST: odoo-db
+  USER: odoo
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -168,14 +193,23 @@ spec:
               cpu: 500m
           env:
             - name: HOST
-              value: odoo-db
+              valueFrom:
+                configMapKeyRef:
+                  name: odoo-db
+                  key: POSTGRES_DB
             - name: USER
-              value: odoo
+              valueFrom:
+                configMapKeyRef:
+                  name: odoo-db
+                  key: POSTGRES_USER
             - name: PASSWORD
-              value: odoo
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-db
+                  key: odoo-db-password
           securityContext:
             privileged: true
-            runAsUser: 101
+            runAsUser: 0
           ports:
             - name: odoo-shop
               containerPort: 8069
