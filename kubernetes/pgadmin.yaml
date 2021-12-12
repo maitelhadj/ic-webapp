@@ -108,8 +108,8 @@ spec:
             - name: PGADMIN_DEFAULT_PASSWORD
               value: "08031998"
           securityContext:
-            privileged: true
-            runAsUser: 0
+            runAsUser: 5050
+            runAsGroup: 5050
           ports:
             - name: http
               containerPort: 80
