@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+  selector:
+    app: pgadmin
+    tier: frontend
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-03
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/mayas/pv-03
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgadmin-pvc
+  labels:
+    app: pgadmin
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+        tier: frontend
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:5.4
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 250m
+            limits:
+              memory: 128Mi
+              cpu: 500m
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: mayasaeh213@gmail.com
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "08031998"
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: pgadmin-config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
+            - name: pgadmin-persistent-storage
+              mountPath: /var/lib/pgadmin
+      volumes:
+        - name: pgadmin-persistent-storage
+          persistentVolumeClaim:
+            claimName: pgadmin-pvc
+...
