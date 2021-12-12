@@ -59,7 +59,7 @@ kind: Secret
 metadata:
   name: odoo-db
 data:
-  odoo-db-password: b2Rvbwo=
+  ODOO-DB-PASSWORD: b2Rvbw==
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -96,7 +96,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: odoo-db
-                  key: odoo-db-password
+                  key: ODOO-DB-PASSWORD
           ports:
             - name: odoo-db
               containerPort: 5432
@@ -202,7 +202,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: odoo-db
-                  key: odoo-db-password
+                  key: ODOO-DB-PASSWORD
           securityContext:
             privileged: true
             runAsUser: 0
