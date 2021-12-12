@@ -29,7 +29,6 @@ spec:
   hostPath:
     path: /home/mayas/pv-01
     type: DirectoryOrCreate
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -85,7 +84,7 @@ spec:
               containerPort: 5432
           volumeMounts:
             - name: odoo-db-persistent-storage
-              mountPath: /var/lib/odoo
+              mountPath: /var/lib/postgresql/data/pgdata
       volumes:
         - name: odoo-db-persistent-storage
           persistentVolumeClaim:
