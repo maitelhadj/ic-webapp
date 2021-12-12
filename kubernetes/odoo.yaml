@@ -60,7 +60,7 @@ metadata:
   name: odoo-db
 type: Opaque
 data:
-  odoo-db-password: b2Rvbwo=
+  odoo-db-password: <b2Rvbwo=>
 ---
 apiVersion: apps/v1
 kind: Deployment
