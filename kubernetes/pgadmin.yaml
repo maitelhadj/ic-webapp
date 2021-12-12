@@ -107,11 +107,13 @@ spec:
               value: mayasaeh213@gmail.com
             - name: PGADMIN_DEFAULT_PASSWORD
               value: "08031998"
-          securityContext:
-            privileged: true
           ports:
             - name: pgadmin
               containerPort: 80
+          securityContext:
+            privileged: true
+            runAsUser: 5050
+            runAsGroup: 5050
           volumeMounts:
             - name: pgadmin-config
               mountPath: /pgadmin4/servers.json
