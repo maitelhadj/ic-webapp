@@ -12,6 +12,39 @@ spec:
     app: odoo
     tier: backend
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-01
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  claimRef: odoo-db-pvc
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /home/mayas/pv-01
+    server: Ubuntu-server
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: odoo-db-pvc
+  labels:
+    app: odoo
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,6 +82,13 @@ spec:
           ports:
             - name: odoo-db
               containerPort: 5432
+          volumeMounts:
+            - name: odoo-db-persistent-storage
+              mountPath: /var/lib/odoo
+      volumes:
+        - name: odoo-db-persistent-storage
+          persistentVolumeClaim:
+            claimName: odoo-db-pvc
 ---
 apiVersion: v1
 kind: Service
