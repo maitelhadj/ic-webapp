@@ -24,7 +24,7 @@ data:
           "Name": "Minimally Defined Server",
           "Group": "Server Group 1",
           "Port": 5432,
-          "Username": "postgres",
+          "Username": "odoo",
           "Host": "localhost",
           "SSLMode": "prefer",
           "MaintenanceDB": "postgres"
@@ -34,7 +34,7 @@ data:
           "Name": "Minimally Defined Server",
           "Group": "Server Group 1",
           "Port": 5432,
-          "Username": "postgres",
+          "Username": "odoo",
           "Host": "localhost",
           "SSLMode": "prefer",
           "MaintenanceDB": "postgres"
