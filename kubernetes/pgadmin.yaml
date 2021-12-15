@@ -4,6 +4,7 @@ metadata:
   name: pgadmin
   labels:
     app: pgadmin
+    environment: prod
 spec:
   type: NodePort
   ports:
@@ -12,26 +13,6 @@ spec:
   selector:
     app: pgadmin
     tier: frontend
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pgadmin-config
-data:
-  servers.json: |
-    {
-      "Servers": {
-        "1": {
-          "Name": "Minimally Defined Server",
-          "Group": "Server Group 1",
-          "Port": 30200,
-          "Username": "odoo",
-          "Host": "192.168.245.148",
-          "SSLMode": "prefer",
-          "MaintenanceDB": "postgres"
-        }
-      }
-    }
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -57,6 +38,7 @@ metadata:
   name: pgadmin-pvc
   labels:
     app: pgadmin
+    environment: prod
 spec:
   storageClassName: manual
   resources:
@@ -66,12 +48,57 @@ spec:
   accessModes:
     - ReadWriteOnce
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+    environment: prod
+data:
+  PGADMIN_DEFAULT_EMAIL: mayasaeh213@gmail.com
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+    environment: prod
+type: Opaque
+data:
+  PGADMIN_DEFAULT_PASSWORD: MDgwMzE5OTg=
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+  labels:
+    app: pgadmin
+    environment: prod
+data:
+  servers.json: |
+    {
+      "Servers": {
+        "1": {
+          "Name": "Minimally Defined Server",
+          "Group": "Server Group 1",
+          "Port": 30200,
+          "Username": "odoo",
+          "Host": "192.168.245.148",
+          "SSLMode": "prefer",
+          "MaintenanceDB": "postgres"
+        }
+      }
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pgadmin
   labels:
     app: pgadmin
+    environment: prod
 spec:
   replicas: 1
   selector:
@@ -96,11 +123,15 @@ spec:
             limits:
               memory: 128Mi
               cpu: 500m
+          envFrom:
+            - configMapRef:
+                name: pgadmin
           env:
-            - name: PGADMIN_DEFAULT_EMAIL
-              value: mayasaeh213@gmail.com
             - name: PGADMIN_DEFAULT_PASSWORD
-              value: "08031998"
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin
+                  key: PGADMIN_DEFAULT_PASSWORD
           ports:
             - name: pgadmin
               containerPort: 80
