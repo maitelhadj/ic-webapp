@@ -151,6 +151,18 @@ spec:
     tier: frontend
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: odoo-shop
+  namespace: icgroup
+  labels:
+    app: odoo
+    environment: prod
+spec:
+  type: ExternalName
+  externalName: local.odoo.com
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-02
