@@ -8,6 +8,7 @@ spec:
   type: NodePort
   ports:
     - port: 5432
+      nodePort: 30200
   selector:
     app: odoo
     tier: backend
@@ -118,6 +119,7 @@ spec:
   type: NodePort
   ports:
     - port: 8069
+      nodePort: 30269
   selector:
     app: odoo
     tier: frontend
@@ -170,7 +172,7 @@ metadata:
   labels:
     app: odoo
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: odoo

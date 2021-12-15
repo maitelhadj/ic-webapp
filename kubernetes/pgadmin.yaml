@@ -8,6 +8,7 @@ spec:
   type: NodePort
   ports:
     - port: 80
+      nodePort: 30080
   selector:
     app: pgadmin
     tier: frontend
@@ -23,19 +24,9 @@ data:
         "1": {
           "Name": "Minimally Defined Server",
           "Group": "Server Group 1",
-          "Port": 30290,
+          "Port": 30200,
           "Username": "odoo",
-          "Host": "localhost",
-          "SSLMode": "prefer",
-          "MaintenanceDB": "postgres"
-        },
-        
-        "2": {
-          "Name": "Minimally Defined Server",
-          "Group": "Server Group 1",
-          "Port": 5432,
-          "Username": "odoo",
-          "Host": "localhost",
+          "Host": "192.168.245.148",
           "SSLMode": "prefer",
           "MaintenanceDB": "postgres"
         }
