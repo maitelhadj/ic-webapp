@@ -202,6 +202,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: odoo-shop
+  namespace: icgroup
   labels:
     app: odoo
     environment: prod
