@@ -45,6 +45,11 @@ spec:
             limits:
               memory: 128Mi
               cpu: 500m
+          env:
+            - name: ODOO_URL
+              value: "http://192.168.245.148:30269"
+            - name: PGADMIN_URL
+              value: "http://192.168.245.148:30080"
           ports:
           - containerPort: 8080
 ...
