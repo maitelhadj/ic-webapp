@@ -1,0 +1,9 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: icgroup
+  labels:
+    name: icgroup
+    environment: prod
+...
